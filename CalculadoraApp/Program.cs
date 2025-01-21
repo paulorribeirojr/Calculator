@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 class Program
 {
@@ -11,45 +12,59 @@ class Program
 
         while (validacao == false)
         {
-            Console.WriteLine("\nBem-vindo a calculadora MMM (MediaModaMediana)!");
-            Console.WriteLine("\n1 - Média\n2 - Moda\n3 - Mediana");
-            Console.Write("\nSelecione uma opção (somente números): ");
-            opcao = Convert.ToInt16(Console.ReadLine());
-
-            if (opcao == 1)
+            try
             {
-                Console.Write("Por favor, digite os números para realizar a média (separe os números usando espaço ' '): ");
-                string numerosMedia = Console.ReadLine();
-                string[] vetmedia = numerosMedia.Split(' ');
-
-                var resultado = Media(vetmedia);
-
-                Console.WriteLine($"\nA media é: {resultado}");
-            }
-            else if (opcao == 2)
-            {
-                Console.Write("Por favor, digite os números para realizar a moda (separe os números usando espaço ' '): ");
-                string numerosMedia = Console.ReadLine();
-                string[] vetmedia = numerosMedia.Split(' ');
-
-                var resultado = Moda(vetmedia);
-
-                Console.WriteLine($"\nA moda é: {resultado}");
-            }
-            else if (opcao == 3)
-            {
-                Console.Write("Por favor, digite os números para realizar a mediana (separe os números usando espaço ' '): ");
-                string numerosMedia = Console.ReadLine();
-                string[] vetmedia = numerosMedia.Split(' ');
-
-                var resultado = Mediana(vetmedia);
-
-                Console.WriteLine($"\nA mediana é: {resultado}");
-            }
-            else if (opcao != 1 || opcao != 2 || opcao != 3)
-            {
-                Console.WriteLine("\n!POR FAVOR, DIGITE UM VALOR VÁLIDO!\n");
+                Console.WriteLine("\nBem-vindo a calculadora MMM (MediaModaMediana)!");
+                Console.WriteLine("\n1 - Média\n2 - Moda\n3 - Mediana");
+                Console.Write("\nSelecione uma opção (somente números): ");
                 opcao = Convert.ToInt16(Console.ReadLine());
+
+                if (opcao == 1)
+                {
+                    Console.Write("Por favor, digite os números para realizar a média (separe os números usando espaço ' '): ");
+                    string numerosMedia = Console.ReadLine();
+                    string[] vetmedia = numerosMedia.Split(' ');
+
+                    var resultado = Media(vetmedia);
+
+                    Console.WriteLine($"\nA media é: {resultado}");
+                }
+                else if (opcao == 2)
+                {
+                    Console.Write("Por favor, digite os números para realizar a moda (separe os números usando espaço ' '): ");
+                    string numerosMedia = Console.ReadLine();
+                    string[] vetmedia = numerosMedia.Split(' ');
+
+                    var resultado = Moda(vetmedia);
+
+                    Console.WriteLine($"\nA moda é: {resultado}");
+                }
+                else if (opcao == 3)
+                {
+                    Console.Write("Por favor, digite os números para realizar a mediana (separe os números usando espaço ' '): ");
+                    string numerosMedia = Console.ReadLine();
+                    string[] vetmedia = numerosMedia.Split(' ');
+
+                    var resultado = Mediana(vetmedia);
+
+                    Console.WriteLine($"\nA mediana é: {resultado}");
+                }
+                else if (opcao != 1 || opcao != 2 || opcao != 3)
+                {
+                    Console.WriteLine("\nErro: Por favor, selecione uma das opções!");
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("\nErro: Por favor, digite um valor válido!\n");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"\nErro: {ex.Message}\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"\nErro inesperado: {ex.Message}\n");
             }
 
             miniloop = false;
@@ -57,7 +72,7 @@ class Program
             while (miniloop == false)
             {
                 Console.Write("\nDeseja fazer outra operação?(s/n): ");
-                string resposta = Console.ReadLine();
+                string? resposta = Console.ReadLine();
 
                 if (resposta == "s")
                 {
@@ -73,6 +88,7 @@ class Program
                 else
                 {
                     miniloop = false;
+                    Console.WriteLine("\nPor favor, use apenas 's' ou 'n'!\n");
                 }
             }
         }
